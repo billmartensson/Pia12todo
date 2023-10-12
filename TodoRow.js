@@ -12,9 +12,13 @@ export default function TodoRow(props) {
           <Text> KLAR</Text>  
       }
 
+    <Button title='KLAR' onPress={() => {
+        props.todoChangeDone();
+    }} />
+
 
       <Button title='DELETE' onPress={() => {
-        
+        props.todoDelete();
       }} />
 
     </View>
@@ -25,7 +29,7 @@ export default function TodoRow(props) {
 const rowstyles = StyleSheet.create({
     todorow: {
       flex: 1,
-      backgroundColor: '#ff0000',
+      backgroundColor: '#cccccc',
       alignItems: 'center',
       justifyContent: 'center',
       flexDirection: "row"
