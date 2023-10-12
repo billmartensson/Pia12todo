@@ -7,17 +7,14 @@ export default function TodoRow(props) {
 
   return (
     <View style={rowstyles.todorow}>
-      <Text>{ props.todoinfo.key }</Text>
-      {props.todoinfo.isdone &&
-          <Text> KLAR</Text>  
-      }
+      <Text style={{ flex: 1 }}>{ props.todoinfo.key }</Text>
 
-    <Button title='KLAR' onPress={() => {
+    <Button title={ props.todoinfo.isdone ? "X" : "O"} onPress={() => {
         props.todoChangeDone();
     }} />
 
 
-      <Button title='DELETE' onPress={() => {
+      <Button title='D' onPress={() => {
         props.todoDelete();
       }} />
 
@@ -28,11 +25,10 @@ export default function TodoRow(props) {
 
 const rowstyles = StyleSheet.create({
     todorow: {
-      flex: 1,
       backgroundColor: '#cccccc',
-      alignItems: 'center',
-      justifyContent: 'center',
-      flexDirection: "row"
+      flexDirection: "row",
+      height: 50,
+      marginBottom: 30
     }
   });
 

@@ -66,25 +66,31 @@ export default function TodoScreen({ navigation, route }) {
   }
 
   function deleteTodo(rownumber) {
-    
+    const newlistStart = [...todoitems].slice(0, rownumber);
+    const newlistEnd = [...todoitems].slice(rownumber+1);
+
+    const newlist = newlistStart.concat(newlistEnd);
+
+    setTodoitems(newlist);
   }
 
 
   return (
     <View style={styles.container}>
-      <Text>TODO</Text>
-
       {errormessage != "" &&
         <Text>{errormessage}</Text>
       }
-
-      <TextInput value={addtodo} onChangeText={setAddtodo} placeholder='Add todo' />
       
-      <Button title='Add' onPress={() => {
-        addToTheList();
-      }} />
+      <View style={styles.addTodoContainer}>
+        <TextInput style={{ flex: 1, backgroundColor: "#ff0000" }} value={addtodo} onChangeText={setAddtodo} placeholder='Add todo' />
+        
+        <Button title='Add' onPress={() => {
+            addToTheList();
+        }} />
+      </View>
+      
 
-      <FlatList 
+      <FlatList style={ styles.todoList }
         data={todoitems} 
         renderItem={({item, index}) => 
 
@@ -124,6 +130,18 @@ const styles = StyleSheet.create({
     height: 100,
     resizeMode: "contain",
     backgroundColor: "#ff0000"
+  },
+  addTodoContainer: {
+    flexDirection: "row",
+    marginLeft: 30,
+    marginRight: 30,
+    marginTop: 30
+  },
+  todoList: {
+    width: "100%", 
+    paddingLeft: 30, 
+    paddingRight: 30,
+    marginTop: 30
   }
 });
 
