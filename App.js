@@ -4,8 +4,8 @@ import { Button, FlatList, TextInput, TouchableOpacity } from 'react-native';
 import { Image, StyleSheet, Text, View } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
-import TodoScreen from './TodoScreen';
-import TodoDetail from './TodoDetail';
+import TodoDetail from './screens/TodoDetail';
+import TodoScreen from './screens/TodoScreen';
 
 const Stack = createNativeStackNavigator();
 
