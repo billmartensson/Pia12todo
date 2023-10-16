@@ -15,11 +15,6 @@ export default function TodoErrorbox(props) {
             </View>
         </TouchableOpacity>            
 
- 
-
-
-
-
     );
 }
 

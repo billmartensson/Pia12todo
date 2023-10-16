@@ -6,7 +6,7 @@ import TodoRow from './TodoRow';
 import TodoHeader from './TodoHeader';
 import TodoErrorbox from './TodoErrorbox';
 import { fancytextstyles } from './TodoDesign';
-import { doFunStuff } from './TodoHelper';
+import { doFunStuff, sortByDone } from './TodoHelper';
 
 export default function TodoScreen({ navigation, route }) {
 
@@ -15,6 +15,8 @@ export default function TodoScreen({ navigation, route }) {
   const [todoitems, setTodoitems] = useState([{ "key": "Abc", isdone: false }, { "key": "B", isdone: true }]);
 
   const [errormessage, setErrormessage] = useState("");
+
+  const [listtype, setListtype] = useState("all");
 
   useEffect(() => {
     if (route.params?.todoname) {
@@ -27,24 +29,17 @@ export default function TodoScreen({ navigation, route }) {
     }
   }, [route.params?.todoname]);
 
-  function compare(a, b) {
-    if (b.isdone) {
-      return -1;
-    }
-    if (a.isdone) {
-      return 1;
-    }
-    return 0;
-  }
+  
 
   function addToTheList() {
     if (addtodo != "") {
       const newtodo = todoitems.concat({ "key": addtodo });
 
-      newtodo.sort(compare);
+      newtodo.sort(sortByDone);
 
       setTodoitems(newtodo);
       setErrormessage("");
+      setAddtodo("");
     } else {
       setErrormessage("You need to enter something!");
 
@@ -54,13 +49,8 @@ export default function TodoScreen({ navigation, route }) {
     }
   }
 
-
-
-
-
   function changeDone(rownumber) {
     const newlist = [...todoitems];
-
 
     if (newlist[rownumber].isdone == true) {
       newlist[rownumber].isdone = false;
@@ -68,7 +58,7 @@ export default function TodoScreen({ navigation, route }) {
       newlist[rownumber].isdone = true;
     }
 
-    newlist.sort(compare);
+    newlist.sort(sortByDone);
 
     setTodoitems(newlist);
   }
@@ -82,6 +72,20 @@ export default function TodoScreen({ navigation, route }) {
     setTodoitems(newlist);
   }
 
+  function filtertodo(todo) {
+    if(listtype == "all") {
+      return true;
+    }
+
+    if(listtype == "done") {
+      return todo.isdone == true;
+    }
+
+    if(listtype == "todo") {
+      return todo.isdone != true;
+    }
+
+  }
 
   return (
     <View style={styles.container}>
@@ -103,10 +107,21 @@ export default function TodoScreen({ navigation, route }) {
           addToTheList();
         }} />
       </View>
-
+      
+      <View style={{ flexDirection: "row" }}>
+        <Button title='All' onPress={() => {
+          setListtype("all");
+        }} />
+        <Button title='Todo' onPress={() => {
+          setListtype("todo");
+        }} />
+        <Button title='Done' onPress={() => {
+          setListtype("done");
+        }} />
+      </View>
 
       <FlatList style={styles.todoList}
-        data={todoitems}
+        data={todoitems.filter(filtertodo)}
         renderItem={({ item, index }) =>
 
           <TouchableOpacity onPress={() => {
