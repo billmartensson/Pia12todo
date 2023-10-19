@@ -7,7 +7,7 @@ export default function TodoRow(props) {
 
   return (
     <View style={rowstyles.todorow}>
-      <Text style={{ flex: 1 }}>{props.todoinfo.key}</Text>
+      <Text style={{ flex: 1, padding: 5,  backgroundColor: "#ff0000" }}>{props.todoinfo.key}</Text>
       <Button title={props.todoinfo.isdone ? "X" : "O"} onPress={() => {
         props.todoChangeDone();
       }} />
@@ -26,7 +26,8 @@ const rowstyles = StyleSheet.create({
     backgroundColor: '#cccccc',
     flexDirection: "row",
     height: 50,
-    marginBottom: 30
+    marginBottom: 30,
+    justifyContent: "center"
   }
 });
 

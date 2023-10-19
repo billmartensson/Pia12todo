@@ -114,21 +114,31 @@ export default function TodoScreen({ navigation, route }) {
         secureTextEntry={false}
         inputMode='text' />
 
-        <Button title='Add' onPress={() => {
+        <Button style={styles.addButton} title='Add' color={"#000000"} onPress={() => {
           addToTheList();
         }} />
       </View>
       
-      <View style={{ flexDirection: "row" }}>
-        <Button title='All' onPress={() => {
+      <View style={styles.filterButtons}>
+        
+        <TouchableOpacity onPress={() => {
           setListtype("all");
-        }} />
-        <Button title='Todo' onPress={() => {
+        }} style={ listtype == "all" ? styles.filterSelectedButton : styles.filterNotSelectedButton}>
+            <Text style={{ textAlign: "center" }}>All</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => {
           setListtype("todo");
-        }} />
-        <Button title='Done' onPress={() => {
+        }} style={ listtype == "todo" ? styles.filterSelectedButton : styles.filterNotSelectedButton}>
+            <Text style={{ textAlign: "center" }}>Todo</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => {
           setListtype("done");
-        }} />
+        }} style={ listtype == "done" ? styles.filterSelectedButton : styles.filterNotSelectedButton}>
+            <Text style={{ textAlign: "center" }}>Done</Text>
+        </TouchableOpacity>
+        
       </View>
 
       <FlatList style={styles.todoList}
@@ -196,9 +206,10 @@ const styles = StyleSheet.create({
   },
   addTodoContainer: {
     flexDirection: "row",
-    marginLeft: 30,
-    marginRight: 30,
-    marginTop: 30
+    backgroundColor: "#cccccc",
+    width: "100%",
+    padding: 20,
+    borderTopWidth: 1
   },
   todoList: {
     width: "100%",
@@ -211,7 +222,32 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 15,
     paddingLeft: 25
-  } 
+  }, 
+  addButton: {
+    
+  },
+  filterButtons: {
+    flexDirection: "row",
+    backgroundColor: "#cccccc",
+    width: "100%",
+    height: 40
+  },
+  filterSelectedButton: {
+    backgroundColor: "#ffffff",
+    width: "33%",
+    borderLeftWidth: 1,
+    borderRightWidth: 1,
+    borderTopWidth: 1,
+    justifyContent: "center"
+  },
+  filterNotSelectedButton: {
+    backgroundColor: "#999999",
+    width: "33%",
+    borderLeftWidth: 1,
+    borderRightWidth: 1,
+    borderTopWidth: 1,
+    justifyContent: "center"
+  }
 });
 
 
