@@ -5,7 +5,7 @@ import { fancytextstyles } from './TodoDesign';
 export default function TodoHeader() {
   
   return (
-    <View>
+    <View style={{ height: 50, width: "100%", backgroundColor: "#cccccc" }}>
         <Text style={fancytextstyles.nicetext} >DETTA ÄR HEADER</Text>
     </View>
   );

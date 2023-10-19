@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
-import { useEffect, useState } from 'react';
-import { Button, FlatList, TextInput, TouchableOpacity } from 'react-native';
+import { useEffect, useRef, useState } from 'react';
+import { ActivityIndicator, Button, FlatList, Platform, Switch, TextInput, TouchableOpacity } from 'react-native';
 import { Image, StyleSheet, Text, View } from 'react-native';
 import TodoRow from './TodoRow';
 import TodoHeader from './TodoHeader';
@@ -10,6 +10,8 @@ import { doFunStuff, sortByDone } from './TodoHelper';
 
 export default function TodoScreen({ navigation, route }) {
 
+  const addtextref = useRef(null);
+
   const [addtodo, setAddtodo] = useState("");
 
   const [todoitems, setTodoitems] = useState([{ "key": "Abc", isdone: false }, { "key": "B", isdone: true }]);
@@ -17,6 +19,8 @@ export default function TodoScreen({ navigation, route }) {
   const [errormessage, setErrormessage] = useState("");
 
   const [listtype, setListtype] = useState("all");
+
+  const [letsgo, setLetsgo] = useState(false);
 
   useEffect(() => {
     if (route.params?.todoname) {
@@ -92,8 +96,6 @@ export default function TodoScreen({ navigation, route }) {
 
       <TodoHeader />
 
-      <Text style={fancytextstyles.nicetext} >Annan text</Text>
-
       {errormessage != "" &&
         <TodoErrorbox errormessage={ errormessage } clickbox={() => {
           setErrormessage("");
@@ -101,7 +103,16 @@ export default function TodoScreen({ navigation, route }) {
       }
 
       <View style={styles.addTodoContainer}>
-        <TextInput style={{ flex: 1, backgroundColor: "#ff0000" }} value={addtodo} onChangeText={setAddtodo} placeholder='Add todo' />
+        <TextInput 
+        ref={addtextref}
+        style={styles.addTextinput} 
+        value={addtodo} 
+        onChangeText={setAddtodo} 
+        onChange={() => { console.log("SKRIVA TEXT"); }}
+        onSubmitEditing={() => { addToTheList();   }}
+        placeholder=''
+        secureTextEntry={false}
+        inputMode='text' />
 
         <Button title='Add' onPress={() => {
           addToTheList();
@@ -144,6 +155,27 @@ export default function TodoScreen({ navigation, route }) {
         }
       />
 
+
+      <Switch value={letsgo} onValueChange={setLetsgo} />
+
+      <Text style={fancytextstyles.nicetext} >Annan text</Text>
+
+      { Platform.OS === "ios" &&
+        <Text>DETTA ÄR IOS</Text>      
+      }
+      { Platform.OS === "android" &&
+        <Text>DETTA ÄR ANDROID</Text>      
+      }
+
+      <View style={{ backgroundColor: "#00ff00", width: 100, height: 100 }} >
+        <View style={{ position: "absolute", top: 0, backgroundColor: "#000000", height: "100%", width: "100%", opacity: 0.5 }} >
+          <Text style={{ color: "#ffffff" }}>LOADING...</Text>
+          <ActivityIndicator size="large" />
+        </View>
+      </View>
+
+      
+
       <StatusBar style="auto" />
     </View>
   );
@@ -173,7 +205,13 @@ const styles = StyleSheet.create({
     paddingLeft: 30,
     paddingRight: 30,
     marginTop: 30
-  }
+  },
+  addTextinput: {
+    flex: 1,
+    borderWidth: 1,
+    borderRadius: 15,
+    paddingLeft: 25
+  } 
 });
 
 
